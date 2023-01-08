@@ -1,0 +1,43 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type User {
+  id: Int!
+  createdDate: DateTime!
+  username: String!
+  password: String
+  posts(limit: Int!, page: Int!): PaginatedPost!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Post {
+  id: Int!
+  createdDate: DateTime!
+  title: String!
+  naijo: String!
+  authorId: Int!
+  author: User!
+  avgRate: Int!
+}
+
+type PaginatedPost {
+  nodes: [Post]!
+  totalCount: Int!
+  page: Int!
+  limit: Int!
+  hasNextPage: Boolean!
+}
+
+type Query {
+  posts(limit: Int!, page: Int!): PaginatedPost!
+  user(id: Int!): User!
+}
+
+type Mutation {
+  register(username: String!, password: String!): User
+}
