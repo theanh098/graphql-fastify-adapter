@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { PaginatedInput } from 'args/pagination.input';
+import { RegisterInput } from 'args/register.input';
 import { PaginatedPost } from 'common/pagination';
 import { Post } from 'entities/post.entity';
 import { User } from 'entities/user.entity';
@@ -12,6 +13,15 @@ export class UserService {
     @InjectRepository(User) private userRepository: Repository<User>,
     @InjectRepository(Post) private postRepository: Repository<Post>,
   ) {}
+
+  async createUser({ password, username }: RegisterInput) {
+    const newUser = this.userRepository.create({
+      username,
+      password,
+    });
+
+    return await this.userRepository.save(newUser);
+  }
 
   async findUser(id: number) {
     const user = await this.userRepository.findOneByOrFail({

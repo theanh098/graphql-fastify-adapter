@@ -33,6 +33,11 @@ type PaginatedPost {
   hasNextPage: Boolean!
 }
 
+type LoginSuccess {
+  accessToken: String!
+  refreshToken: String!
+}
+
 type Query {
   posts(limit: Int!, page: Int!): PaginatedPost!
   user(id: Int!): User!
@@ -40,4 +45,5 @@ type Query {
 
 type Mutation {
   register(username: String!, password: String!): User
+  login(username: String!, password: String!): LoginSuccess
 }

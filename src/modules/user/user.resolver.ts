@@ -7,10 +7,12 @@ import {
   ResolveField,
   Resolver,
 } from '@nestjs/graphql';
+import { LoginInput } from 'args/login.input';
 import { PaginatedInput } from 'args/pagination.input';
 import { RegisterInput } from 'args/register.input';
 import { PaginatedPost } from 'common/pagination';
 import { User } from 'entities/user.entity';
+import { LoginSuccess } from 'schemas/login.shema';
 import { UserService } from './user.service';
 
 @Resolver(() => User) // Resolver for User schema
@@ -27,11 +29,16 @@ export class UserResolver {
     return this.userService.findPostsByAuthor(author.id, args);
   }
 
-  @Mutation(() => User, { name: 'register', nullable: true })
-  createUser(@Args() args: RegisterInput) {
+  @Mutation(() => User, { nullable: true })
+  register(@Args() args: RegisterInput) {
+    return this.userService.createUser(args);
+  }
+
+  @Mutation(() => LoginSuccess, { nullable: true })
+  login(@Args() args: LoginInput) {
     console.log('args: ', args);
     return {
-      id: 12,
+      accessToken: 'cmm',
     };
   }
 }
